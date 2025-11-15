@@ -6,12 +6,14 @@ using fitcore_backend.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var jwtKey = builder.Configuration["JWT_KEY"] ?? throw new Exception("JWT_KEY missing");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+    options.UseNpgsql(connectionString);
 });
 
-var jwtKey = builder.Configuration["JwtKey"]!;
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -58,7 +60,6 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureDeleted();
     db.Database.Migrate();
     DbSeeder.Seed(db);
 }

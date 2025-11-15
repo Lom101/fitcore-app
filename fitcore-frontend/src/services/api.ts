@@ -6,7 +6,7 @@ import {NutritionDay} from "../models/NutritionDay.ts";
 import {Meal} from "../models/Meal.ts";
 
 // Базовый URL API
-const API_URL = "http://localhost:8000/api";
+const API_URL = "http://localhost:8080/api";
 
 // Получение токена из localStorage
 const getToken = () => localStorage.getItem("token");
