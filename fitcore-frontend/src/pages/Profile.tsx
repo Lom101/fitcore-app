@@ -116,7 +116,7 @@ function Profile() {
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4 text-center border border-gray-200">
-            <p className="text-sm text-gray-600 mb-1">Соблюдение питания</p>
+            <p className="text-sm text-gray-600 mb-1">Соблюдение питания за сегодня</p>
             <p className="text-2xl font-bold text-purple-600">{nutritionProgress.toFixed(0)}%</p>
           </div>
         </div>

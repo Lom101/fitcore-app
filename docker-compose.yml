@@ -13,6 +13,16 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  gigachat-proxy:
+    build: ./gigachat-proxy
+    container_name: gigachat-proxy
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - db
+
   backend:
     build: ./fitcore-backend
     container_name: fitcore-backend
@@ -20,7 +30,7 @@ services:
       - "8080:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=fitcoredb;Username=fitcore;Password=fitcore123"
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=fitcoredb;Username=fitcore;Password=fitcore123"
       JWT_KEY: "SUPER_SECRET_KEY_123456789_1234567890"
     depends_on:
       - db
@@ -32,6 +42,7 @@ services:
       - "3000:80"
     depends_on:
       - backend
+      - gigachat-proxy
 
 volumes:
   pgdata:

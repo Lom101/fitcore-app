@@ -6,8 +6,8 @@ using fitcore_backend.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var jwtKey = builder.Configuration["JWT_KEY"] ?? throw new Exception("JWT_KEY missing");
+var connectionString = builder.Configuration.GetConnectionString("Default");
+var jwtKey = builder.Configuration["JwtKey"] ?? throw new Exception("JwtKey missing");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

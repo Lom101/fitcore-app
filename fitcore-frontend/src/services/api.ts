@@ -100,6 +100,11 @@ export const api = {
     await axiosInstance.delete(`/nutrition/meal/${mealId}`);
   },
 
+  async getAllNutrition(): Promise<NutritionDay[]> {
+    const res = await axiosInstance.get("/nutrition/all"); // новый эндпоинт на бэке
+    return res.data;
+  },
+
   // ===== Steps =====
   async getStepsToday(): Promise<{id: string, date: string, steps: number}> {
     const res = await axiosInstance.get("/steps/today");

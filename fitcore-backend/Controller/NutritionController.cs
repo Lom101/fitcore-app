@@ -18,7 +18,37 @@ public class NutritionController : ControllerBase
     }
 
     private Guid GetUserId() => Guid.Parse(User.FindFirst("id")!.Value);
+    
+    [HttpGet("all")]
+    public IActionResult GetAllNutrition()
+    {
+        var userId = GetUserId();
 
+        var days = _db.NutritionDays
+            .Where(d => d.UserId == userId)
+            .Include(d => d.Meals)
+            .OrderBy(d => d.Date)
+            .ToList();
+
+        var dtoList = days.Select(day => new NutritionDayDto
+        {
+            Id = day.Id,
+            Date = day.Date,
+            ConsumedCalories = day.ConsumedCalories,
+            TargetCalories = day.TargetCalories,
+            Meals = day.Meals.Select(m => new MealDto
+            {
+                Id = m.Id,
+                MealType = m.MealType,
+                Protein = m.Protein,
+                Fat = m.Fat,
+                Carbs = m.Carbs
+            }).ToList()
+        }).ToList();
+
+        return Ok(dtoList);
+    }
+    
     [HttpGet("today")]
     public IActionResult GetToday()
     {
@@ -128,5 +158,4 @@ public class NutritionController : ControllerBase
 
         return NoContent();
     }
-
 }

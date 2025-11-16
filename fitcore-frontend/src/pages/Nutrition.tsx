@@ -4,6 +4,7 @@ import { api } from "../services/api";
 import { NutritionDay, Meal } from "../models/NutritionDay";
 import { MealType } from "../models/Meal";
 import { FiX } from "react-icons/fi";
+import {useNavigate} from "react-router-dom";
 
 function Nutrition() {
     const [nutrition, setNutrition] = useState<NutritionDay | null>(null);
@@ -12,7 +13,8 @@ function Nutrition() {
     const [protein, setProtein] = useState(0);
     const [fat, setFat] = useState(0);
     const [carbs, setCarbs] = useState(0);
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         loadNutrition();
     }, []);
@@ -210,7 +212,10 @@ function Nutrition() {
 
             {/* Кнопки действий */}
             <div className="grid grid-cols-2 gap-4">
-                <button className="bg-blue-500 text-white py-3 px-4 rounded-xl font-semibold text-center shadow-lg hover:bg-blue-600 transition">
+                <button
+                    className="bg-blue-500 text-white py-3 px-4 rounded-xl font-semibold text-center shadow-lg hover:bg-blue-600 transition"
+                    onClick={() => navigate('/coach/chat', { state: { initialQuestion: 'Сгенерируй мне рецепт блюда на сегодня' } })}
+                >
                     Генерация рецепта с ИИ
                 </button>
                 <button className="bg-green-500 text-white py-3 px-4 rounded-xl font-semibold text-center shadow-lg hover:bg-green-600 transition">
